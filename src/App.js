@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
+import firebase from './firebase';
 
 function App() {
+  const ref = firebase.firestore().collection("BasicProfile");
+
+  function getFBData() {
+    ref.get().then((item) => {
+      const items = item.docs.map((doc) => doc.data());
+      console.log(items);
+    });
+  }
+  useEffect(() => {
+    getFBData();
+    // eslint-disable-next-line
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Firebase</h1>
     </div>
   );
 }
