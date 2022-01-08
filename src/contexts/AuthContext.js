@@ -6,6 +6,8 @@ const AuthContext = React.createContext();
 export function useAuth() {
   return useContext(AuthContext);
 }
+
+
 export default function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);

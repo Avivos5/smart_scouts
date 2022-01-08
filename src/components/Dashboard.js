@@ -10,7 +10,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   async function handeLogout (){
-
     try{
       await logout(logout)
       navigate("/login")

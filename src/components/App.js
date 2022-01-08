@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import Login from './Login';
 import PrivateRoute from './PrivateRoute';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import CompleteProfile from './CompleteProfile';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                   />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/complete_profile" element={<CompleteProfile />} />
                 </Routes>
               </AuthProvider>  
             </Router>
