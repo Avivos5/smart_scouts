@@ -7,6 +7,7 @@ import Login from './Login';
 import PrivateRoute from './PrivateRoute';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import CompleteProfile from './CompleteProfile';
+import Profile from './Profile';
 
 function App() {
   return (
@@ -26,7 +27,9 @@ function App() {
                   />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
-                  <Route path="/complete_profile" element={<CompleteProfile />} />
+                  {/* te dwie ścieżki ponieżej do private route? */}
+                  <Route path="/complete_profile" element={<CompleteProfile />} /> 
+                  <Route path="/profile" element={<Profile/>} />
                 </Routes>
               </AuthProvider>  
             </Router>

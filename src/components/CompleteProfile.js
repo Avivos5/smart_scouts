@@ -4,8 +4,11 @@ import {useAuth} from '../contexts/AuthContext'
 import {db, storage} from '../firebase'
 import {setDoc, doc,  Timestamp} from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import {Link, useNavigate} from 'react-router-dom'
 
 function CompleteProfile() {
+
+  const navigate = useNavigate();
 
   const nameRef = useRef();
   const surnameRef = useRef();
@@ -34,13 +37,13 @@ function CompleteProfile() {
             setDoc(doc(db, "BasicProfile", currentUser.uid), {
               name: nameRef.current.value,
               surname: surnameRef.current.value,
-              discipline_id: parseInt(disciplineRef.current.value),
-              acc_type_id: parseInt(accTypeRef.current.value),
+              discipline_id: disciplineRef.current.value,
+              acc_type_id: accTypeRef.current.value,
               birthday_date: Timestamp.fromDate(new Date(birthdayRef.current.value)),
               s_desc: shortDescRef.current.value,
               image: url,
               is_promoted: false,
-              acc_status_id: 0,
+              acc_status_id: 0..toString(),
             })
 
             setDoc(doc(db, "ExtendedProfile", currentUser.uid), {
@@ -48,6 +51,7 @@ function CompleteProfile() {
               video_url: ""
             })
 
+            navigate("/profile");
         })
       }
     )
