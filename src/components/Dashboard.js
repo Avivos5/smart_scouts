@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import {useAuth} from '../contexts/AuthContext'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import {db} from '../firebase'
 import UserPageTemplate from '../templates/UserPageTemplate';
-import {Image, Card} from 'react-bootstrap'
+import {Card} from 'react-bootstrap'
 
 export default function Dashboard() {
 
@@ -22,7 +21,7 @@ export default function Dashboard() {
 
   return (
     <UserPageTemplate>
-        <h1 class='mt-2 mb-4' >Dashboard</h1>
+        <h1 class='mt-2 mb-4'>Dashboard</h1>
         {athletesData.map((athelte, i) => {
                 return (
                     <Card key={i} className='mb-3' border="dark">

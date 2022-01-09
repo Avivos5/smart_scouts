@@ -4,6 +4,7 @@ import {db} from '../firebase'
 import 'firebase/firestore';
 import {useAuth} from '../contexts/AuthContext'
 import UserPageTemplate from '../templates/UserPageTemplate';
+import {Card, ListGroup, ListGroupItem, Spinner} from 'react-bootstrap'
 
 
 export default function Profile() {
@@ -38,17 +39,26 @@ export default function Profile() {
 
   return (
     <UserPageTemplate>
-      {accType &&
+      <h1 class='mt-2 mb-4'>Profile</h1>
+      {accType ?
         <>
-          <h1>PROFILE</h1>
-          <img src={basicUserData.image} alt='user avatar'/>
-          <p>Imie: {basicUserData.name}</p>
-          <p>Nazwisko: {basicUserData.surname}</p>
-          <p>Bio: {basicUserData.s_desc}</p>
-          <p>Urodzony: {birthdayDate}</p>
-          <p>Dyscyplina: {discipline}</p>
-          <p>Typ konta: {accType}</p>
+          <Card className='mx-auto mt-2' border="dark" style={{ width: '30rem' }}>
+            <Card.Img variant="top" src={basicUserData.image} alt='user avatar' style={{ height: '250px', objectFit: 'contain'}}/>
+            <Card.Body>
+              <Card.Title>{basicUserData.name} {basicUserData.surname}</Card.Title>
+              <Card.Text>{basicUserData.s_desc}</Card.Text>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+              <ListGroupItem>Urodzony: {birthdayDate}</ListGroupItem>
+              <ListGroupItem>Dyscyplina: {discipline}</ListGroupItem>
+              <ListGroupItem>Typ konta: {accType}</ListGroupItem>
+            </ListGroup>
+          </Card>
         </>
+        :
+        <div className='mt-10 d-flex justify-content-center'>
+          <Spinner animation="border" />
+        </div>
       }
     </UserPageTemplate>
   )

@@ -60,7 +60,7 @@ function CompleteProfile() {
   return (
     <Container className='d-flex align-items-center justify-content-center' style={{minHeight: "100vh"}}>
       <div className="w-100" style={{maxWidth: '400px'}}>
-        <Card>
+        <Card bg="dark" text="white">
           <Card.Body>
             <h2 className="text-center mb-4">Uzupełnij profil</h2>
             <Form onSubmit={handleSubmit}>
