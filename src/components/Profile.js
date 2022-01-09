@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import {doc, getDoc} from 'firebase/firestore'
+import {Button} from "react-bootstrap";
 import {db} from '../firebase'
 import 'firebase/firestore';
 import {useAuth} from '../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Profile() {
 
-  const {currentUser} = useAuth();
-  const docRef =  doc(db, "BasicProfile", currentUser.uid);
+  const {currentUser, logout} = useAuth();
+  const navigate = useNavigate();  
 
   const [basicUserData, setBasicUserData] = useState({})
   const [birthdayDate, setBirthdayDate] = useState("")
@@ -16,9 +19,8 @@ export default function Profile() {
 
   
   useEffect(() => {
-    
     const getCurrUserData = async () =>{
-      const userData = await getDoc(docRef);
+      const userData = await getDoc(doc(db, "BasicProfile", currentUser.uid));
       const userDataObj = userData.data();
       setBasicUserData(userDataObj);
 
@@ -34,6 +36,14 @@ export default function Profile() {
     getCurrUserData();
   }, [])
 
+  async function handeLogout (){
+    try{
+      await logout(logout)
+      navigate("/login")
+    }catch{
+    }
+  }
+
   return (
     <div>
       <h1>PROFILE</h1>
@@ -44,6 +54,7 @@ export default function Profile() {
       <p>Urodzony: {birthdayDate}</p>
       <p>Dyscyplina: {discipline}</p>
       <p>Typ konta: {accType}</p>
+      <Button onClick={handeLogout}>Logout</Button>
     </div>
   )
 }
