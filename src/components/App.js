@@ -11,18 +11,15 @@ import Profile from './Profile';
 
 function App() {
   return (
-        <Container className='d-flex align-items-center justify-content-center'
-        style={{minHeight: "100vh"}}>
-          <div className="w-100" style={{maxWidth: '400px'}}>
+        <Container style={{minHeight: "100vh", minWidth: "100%", padding:"0"}}>
             <Router>
               <AuthProvider>
                 <Routes>
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
-                  {/* te dwie ścieżki ponieżej do private route? */}
                   <Route
                     exact
-                    path="/"
+                    path="/dashboard"
                     element={
                       <PrivateRoute>
                         <Dashboard />
@@ -47,12 +44,9 @@ function App() {
                       </PrivateRoute>
                     }
                   />
-                  {/* <Route path="/complete_profile" element={<CompleteProfile />} /> 
-                  <Route path="/profile" element={<Profile />} /> */}
                 </Routes>
               </AuthProvider>  
             </Router>
-          </div>
         </Container>
   );
 }

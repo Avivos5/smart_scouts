@@ -1,10 +1,10 @@
 import React, {useRef} from 'react'
-import { Form, Button, Card} from "react-bootstrap";
+import { Form, Button, Card, Container} from "react-bootstrap";
 import {useAuth} from '../contexts/AuthContext'
 import {db, storage} from '../firebase'
 import {setDoc, doc,  Timestamp} from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 function CompleteProfile() {
 
@@ -58,72 +58,74 @@ function CompleteProfile() {
   }
 
   return (
-    <>
-      <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4">Uzupełnij profil</h2>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Imię</Form.Label>
-              <Form.Control type="text" ref={nameRef} required></Form.Control>
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Nazwisko</Form.Label>
-              <Form.Control
-                type="text"
-                ref={surnameRef}
-                required
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group id="discipline">
-            <Form.Label>Dyscyplina</Form.Label>
-              <Form.Select ref={disciplineRef}>
-                <option value="0">Piłka nożna</option>
-                <option value="1">Siatkówka</option>
-                <option value="2">Koszykówka</option>
-                <option value="3">Łucznictwo</option>
-                <option value="4">Karate</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group id="accountType">
-            <Form.Label>Typ konta</Form.Label>
-              <Form.Select ref={accTypeRef}>
-                <option value="0">Zawodnik</option>
-                <option value="1">Trener</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group id="birthday">
-              <Form.Label>Data urodzin</Form.Label>
-              <Form.Control
-                type="date"
-                ref={birthdayRef}
-                required
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group id="shortDesc">
-              <Form.Label>Krótki opis</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={2}
-                ref={shortDescRef}
-                required
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group id="prifileImage">
-              <Form.Label>Zdjęcie profilowe</Form.Label>
-              <Form.Control
-                type="file"
-                ref={profilePicRef}
-                required
-              ></Form.Control>
-            </Form.Group>
-             <Button className="w-100 mt-3" type="submit"> 
-              Uzupełnij
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </>
+    <Container className='d-flex align-items-center justify-content-center' style={{minHeight: "100vh"}}>
+      <div className="w-100" style={{maxWidth: '400px'}}>
+        <Card>
+          <Card.Body>
+            <h2 className="text-center mb-4">Uzupełnij profil</h2>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group id="email">
+                <Form.Label>Imię</Form.Label>
+                <Form.Control type="text" ref={nameRef} required></Form.Control>
+              </Form.Group>
+              <Form.Group id="password">
+                <Form.Label>Nazwisko</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={surnameRef}
+                  required
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group id="discipline">
+              <Form.Label>Dyscyplina</Form.Label>
+                <Form.Select ref={disciplineRef}>
+                  <option value="0">Piłka nożna</option>
+                  <option value="1">Siatkówka</option>
+                  <option value="2">Koszykówka</option>
+                  <option value="3">Łucznictwo</option>
+                  <option value="4">Karate</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group id="accountType">
+              <Form.Label>Typ konta</Form.Label>
+                <Form.Select ref={accTypeRef}>
+                  <option value="0">Zawodnik</option>
+                  <option value="1">Trener</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group id="birthday">
+                <Form.Label>Data urodzin</Form.Label>
+                <Form.Control
+                  type="date"
+                  ref={birthdayRef}
+                  required
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group id="shortDesc">
+                <Form.Label>Krótki opis</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={2}
+                  ref={shortDescRef}
+                  required
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group id="prifileImage">
+                <Form.Label>Zdjęcie profilowe</Form.Label>
+                <Form.Control
+                  type="file"
+                  ref={profilePicRef}
+                  required
+                ></Form.Control>
+              </Form.Group>
+              <Button className="w-100 mt-3" type="submit"> 
+                Uzupełnij
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
+    </Container>
   )
 }
 

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import {doc, getDoc} from 'firebase/firestore'
-import {Button} from "react-bootstrap";
 import {db} from '../firebase'
 import 'firebase/firestore';
 import {useAuth} from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom';
+import UserPageTemplate from '../templates/UserPageTemplate';
 
 
 export default function Profile() {
 
-  const {currentUser, logout} = useAuth();
-  const navigate = useNavigate();  
+  const {currentUser} = useAuth();
 
   const [basicUserData, setBasicUserData] = useState({})
   const [birthdayDate, setBirthdayDate] = useState("")
@@ -36,25 +34,22 @@ export default function Profile() {
     getCurrUserData();
   }, [])
 
-  async function handeLogout (){
-    try{
-      await logout(logout)
-      navigate("/login")
-    }catch{
-    }
-  }
+  
 
   return (
-    <div>
-      <h1>PROFILE</h1>
-      <img src={basicUserData.image} />
-      <p>Imie: {basicUserData.name}</p>
-      <p>Nazwisko: {basicUserData.surname}</p>
-      <p>Bio: {basicUserData.s_desc}</p>
-      <p>Urodzony: {birthdayDate}</p>
-      <p>Dyscyplina: {discipline}</p>
-      <p>Typ konta: {accType}</p>
-      <Button onClick={handeLogout}>Logout</Button>
-    </div>
+    <UserPageTemplate>
+      {accType &&
+        <>
+          <h1>PROFILE</h1>
+          <img src={basicUserData.image} alt='user avatar'/>
+          <p>Imie: {basicUserData.name}</p>
+          <p>Nazwisko: {basicUserData.surname}</p>
+          <p>Bio: {basicUserData.s_desc}</p>
+          <p>Urodzony: {birthdayDate}</p>
+          <p>Dyscyplina: {discipline}</p>
+          <p>Typ konta: {accType}</p>
+        </>
+      }
+    </UserPageTemplate>
   )
 }
