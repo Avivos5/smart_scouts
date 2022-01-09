@@ -17,7 +17,11 @@ function App() {
             <Router>
               <AuthProvider>
                 <Routes>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  {/* te dwie ścieżki ponieżej do private route? */}
                   <Route
+                    exact
                     path="/"
                     element={
                       <PrivateRoute>
@@ -25,11 +29,26 @@ function App() {
                       </PrivateRoute>
                     }
                   />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  {/* te dwie ścieżki ponieżej do private route? */}
-                  <Route path="/complete_profile" element={<CompleteProfile />} /> 
-                  <Route path="/profile" element={<Profile/>} />
+                  <Route
+                    exact
+                    path="/complete_profile"
+                    element={
+                      <PrivateRoute>
+                        <CompleteProfile />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/profile"
+                    element={
+                      <PrivateRoute>
+                        <Profile />
+                      </PrivateRoute>
+                    }
+                  />
+                  {/* <Route path="/complete_profile" element={<CompleteProfile />} /> 
+                  <Route path="/profile" element={<Profile />} /> */}
                 </Routes>
               </AuthProvider>  
             </Router>
