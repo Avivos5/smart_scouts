@@ -21,7 +21,7 @@ export default function Dashboard() {
 
   return (
     <UserPageTemplate>
-        <h1 class='mt-2 mb-4'>Dashboard</h1>
+        <h1 className='mt-2 mb-4'>Dashboard</h1>
         {athletesData.map((athelte, i) => {
                 return (
                     <Card key={i} className='mb-3' border="dark">

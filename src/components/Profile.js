@@ -39,7 +39,7 @@ export default function Profile() {
 
   return (
     <UserPageTemplate>
-      <h1 class='mt-2 mb-4'>Profile</h1>
+      <h1 className='mt-2 mb-4'>Profile</h1>
       {accType ?
         <>
           <Card className='mx-auto mt-2' border="dark" style={{ maxWidth: '30rem' }}>

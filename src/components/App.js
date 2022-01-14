@@ -4,7 +4,8 @@ import AuthProvider from '../contexts/AuthContext';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
 import Login from './Login';
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from '../routes/PrivateRoute';
+import AlreadyLoggedRoute from '../routes/AlreadyLoggedRoute';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import CompleteProfile from './CompleteProfile';
 import Profile from './Profile';
@@ -15,8 +16,33 @@ function App() {
             <Router>
               <AuthProvider>
                 <Routes>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
+                <Route
+                    exact
+                    path="/login"
+                    element={
+                      <AlreadyLoggedRoute>
+                        <Login />
+                      </AlreadyLoggedRoute>
+                    }
+                  />
+                <Route
+                    exact
+                    path="/signup"
+                    element={
+                      <AlreadyLoggedRoute>
+                        <Signup />
+                      </AlreadyLoggedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/"
+                    element={
+                      <PrivateRoute>
+                        <Dashboard />
+                      </PrivateRoute>
+                    }
+                  />
                   <Route
                     exact
                     path="/dashboard"
