@@ -43,7 +43,7 @@ export default function Profile() {
       {accType ?
         <>
           <Card className='mx-auto mt-2' border="dark" style={{ maxWidth: '30rem' }}>
-            <Card.Img variant="top" src={basicUserData.image} alt='user avatar' style={{ height: '250px', objectFit: 'contain'}}/>
+            <Card.Img variant="top" src={basicUserData.profileImage} alt='user avatar' style={{ height: '250px', objectFit: 'contain'}}/>
             <Card.Body>
               <Card.Title>{basicUserData.name} {basicUserData.surname}</Card.Title>
               <Card.Text>{basicUserData.s_desc}</Card.Text>
