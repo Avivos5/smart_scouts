@@ -27,7 +27,7 @@ export default function Dashboard() {
                     <Card key={i} className='mb-3' border="dark">
                       <Card.Header >{athelte.name} {athelte.surname}</Card.Header>
                       <Card.Body className="d-flex justify-content-start" style={{gap: '20px'}}>
-                        <Card.Img src={athelte.image} style={{ width: '70px', height: '70px' }}/>
+                        <Card.Img src={athelte.profileImage} style={{ width: '70px', height: '70px' }}/>
                         <div style={{flexGrow: '1'}}>
                         <Card.Text>{athelte.birthday_date.toDate().toLocaleDateString()}</Card.Text>
                         </div>
