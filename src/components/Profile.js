@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {doc, collection, getDoc, addDoc, deleteDoc, onSnapshot} from 'firebase/firestore'
+import {doc, collection, getDoc, addDoc, deleteDoc, onSnapshot, query, orderBy} from 'firebase/firestore'
 import {db} from '../firebase'
 import 'firebase/firestore';
 import {useAuth} from '../contexts/AuthContext'
@@ -12,9 +12,15 @@ export default function Profile() {
   const {currentUser} = useAuth();
 
   const achivesCollectionRef =  collection(db, "Achivements", currentUser.uid, "UserAchivements");
+  const hisotryCollectionRef =  collection(db, "History", currentUser.uid, "UserHistory");
   
   const [newAchivName, setNewAchivName] = useState("")
   const [achivements, setAchivements] = useState({})
+  
+  const [eventStartDate, setEventStartDate] = useState()
+  const [eventEndDate, setEventEndDate] = useState()
+  const [eventName, setEventName] = useState("")
+  const [history, setHistory] = useState({})
 
   const [basicUserData, setBasicUserData] = useState({})
   const [birthdayDate, setBirthdayDate] = useState("")
@@ -56,8 +62,19 @@ export default function Profile() {
     setNewAchivName("")
   }
 
+  const addHistory = async (e) => {
+    e.preventDefault();
+
+    await addDoc(hisotryCollectionRef, {date_from: eventStartDate, date_to: eventEndDate, name: eventName});
+    setEventName("")
+  }
+
   const deleteAchivement = async (id) => {
     await deleteDoc(doc(db, "Achivements", currentUser.uid, "UserAchivements", id));
+  };
+
+  const deleteHistory = async (id) => {
+    await deleteDoc(doc(db, "History", currentUser.uid, "UserHistory", id));
   };
 
   useEffect(() => {
@@ -72,6 +89,20 @@ export default function Profile() {
     });
 
     return unsubscribeAchivements
+  }, [])
+
+  useEffect(() => {
+
+    const q = query(hisotryCollectionRef, orderBy("date_from"));
+    const unsubscribeHistory = onSnapshot(q, (snapshot) => {
+      const history = [];
+      snapshot.forEach((doc) => {
+        history.push({ ...doc.data(), id: doc.id });
+      });
+      setHistory(history)
+    });
+
+    return unsubscribeHistory
   }, [])
 
   
@@ -126,7 +157,7 @@ export default function Profile() {
             <ListGroup className="list-group-flush">
               {achivements.map((achiv, i) => {
                   return (
-                    <ListGroupItem key={i} className="d-flex justify-content-between align-items-center">
+                    <ListGroupItem key={i} variant="secondary" className="d-flex justify-content-between align-items-center">
                       {achiv.name}
                       <Button 
                       className="w-10" 
@@ -144,19 +175,92 @@ export default function Profile() {
             <Card.Body>
               <Card.Title className="mb-2 text-muted">Dodaj osiągnięcie</Card.Title>
               <Form onSubmit={addAchivement}>
-              <Form.Group id="name">
+              <Form.Group id="achivement">
                     <Form.Label>Nazwa osiągnięcia</Form.Label>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <Form.Control 
+                      type="text" 
+                      onChange={(event) => {
+                        setNewAchivName(event.target.value);
+                      }}
+                      value={newAchivName}
+                      required
+                      ></Form.Control>
+                      <Button className="w-25" type="submit"> 
+                        Dodaj
+                      </Button>
+                    </div>
+                  </Form.Group>
+              </Form>
+            </Card.Body>
+            <Card.Body>
+              <Card.Title>Historia</Card.Title>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+              {history.map((event, i) => {
+                  return (
+                    <ListGroupItem key={i} variant="secondary" className="d-flex justify-content-between align-items-center">
+                      
+                      <div className="ms-2 me-auto">
+                        <div className="fw-bold">{event.date_from} - {event.date_to}</div>
+                        {event.name}
+                      </div>
+                      <Button 
+                      className="w-10" 
+                      variant="danger" 
+                      size="sm" 
+                      onClick={() => {
+                        deleteHistory(event.id);
+                      }}> 
+                        X
+                      </Button>
+                    </ListGroupItem>
+                  )
+              })}  
+            </ListGroup>
+            <Card.Body>
+              <Card.Title className="mb-2 text-muted">Dodaj Doświadczenie</Card.Title>
+              <Form onSubmit={addHistory}>
+              <Form.Group id="history">
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                      <Form.Label>Data rozpoczęcia</Form.Label>
+                      <Form.Control
+                        type="date"
+                        onChange={(event) => {
+                          setEventStartDate(event.target.value);
+                        }}
+                        required
+                      >
+                      </Form.Control>
+                    </div>
+                    <div>
+                      <Form.Label>Data zakończenia</Form.Label>
+                      <Form.Control
+                        type="date"
+                        onChange={(event) => {
+                          setEventEndDate(event.target.value);
+                        }}
+                        required
+                      >
+                      </Form.Control>
+                    </div>
+                  </div>
+                  <Form.Label>Nazwa doświadczenia</Form.Label>
+                  <div className="d-flex justify-content-between align-items-center">
                     <Form.Control 
                     type="text" 
                     onChange={(event) => {
-                      setNewAchivName(event.target.value);
+                      setEventName(event.target.value);
                     }}
-                    value={newAchivName}
+                    value={eventName}
                     required
-                    ></Form.Control>
-                    <Button className="w-20 mt-3" type="submit"> 
+                    >
+                    </Form.Control>
+                    <Button className="w-25" type="submit"> 
                       Dodaj
                     </Button>
+                  </div>
                   </Form.Group>
               </Form>
             </Card.Body>
