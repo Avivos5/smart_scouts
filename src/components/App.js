@@ -8,6 +8,7 @@ import PrivateRoute from '../routes/PrivateRoute';
 import AlreadyLoggedRoute from '../routes/AlreadyLoggedRoute';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import CompleteProfile from './CompleteProfile';
+import DetailsPage from './DetailsPage'
 import Profile from './Profile';
 
 function App() {
@@ -49,6 +50,15 @@ function App() {
                     element={
                       <PrivateRoute>
                         <Dashboard />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/dashboard/:uid"
+                    element={
+                      <PrivateRoute>
+                        <DetailsPage />
                       </PrivateRoute>
                     }
                   />

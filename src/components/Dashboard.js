@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import {db} from '../firebase'
 import UserPageTemplate from '../templates/UserPageTemplate';
-import {Card} from 'react-bootstrap'
+import {Card, Button} from 'react-bootstrap'
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
 
@@ -34,6 +35,7 @@ export default function Dashboard() {
                         <div style={{flexGrow: '3'}}>
                         <Card.Text>{athelte.s_desc}</Card.Text>
                         </div>
+                        <Link to={`/dashboard/${athelte.id}`}>Szczegóły</Link>
                       </Card.Body>
                     </Card>
                 )
