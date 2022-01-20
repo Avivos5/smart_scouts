@@ -14,25 +14,13 @@ export default function Dashboard() {
   // const q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("birthday_date")); //po dacie urodzenia od najstarszych
   // const q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("birthday_date", "desc")); //po dacie urodzenia od najmłodszych
 
-  // const [cityQuery, setCityQuery] = useState("");
-
   const [allAthletesData, setAllAthletesData] = useState([]);
   const [athletesData, setAthletesData] = useState([]);
+  
   const [surnameQuery, setSurnameQuery] = useState("");
   const [cityQuery, setCityQuery] = useState("");
   const [genderQuery, setGenderQuery] = useState("");
   const [disciplineQuery, setDisciplineQuery] = useState("");
-
-  // const filterByCity = (cityQuery) =>{
-  //   if(cityQuery == ""){
-  //     setAthletesData(allAthletesData);
-  //   }
-  //   else{
-  //     const ahtletesWithCity = allAthletesData.filter(athlete => athlete.city.toUpperCase().includes(cityQuery.toUpperCase()));
-  //     setAthletesData(ahtletesWithCity);
-  //     console.log(athletesData)
-  //   }
-  // }
 
   const queryChanged = () => {
     if(surnameQuery === "" && cityQuery === "" && genderQuery === "" && disciplineQuery === ""){
