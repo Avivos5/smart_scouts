@@ -18,15 +18,42 @@ export default function Dashboard() {
 
   const [allAthletesData, setAllAthletesData] = useState([]);
   const [athletesData, setAthletesData] = useState([]);
+  const [surnameQuery, setSurnameQuery] = useState("");
+  const [cityQuery, setCityQuery] = useState("");
+  const [genderQuery, setGenderQuery] = useState("");
+  const [disciplineQuery, setDisciplineQuery] = useState("");
 
-  const filterByCity = (cityQuery) =>{
-    if(cityQuery == ""){
+  // const filterByCity = (cityQuery) =>{
+  //   if(cityQuery == ""){
+  //     setAthletesData(allAthletesData);
+  //   }
+  //   else{
+  //     const ahtletesWithCity = allAthletesData.filter(athlete => athlete.city.toUpperCase().includes(cityQuery.toUpperCase()));
+  //     setAthletesData(ahtletesWithCity);
+  //     console.log(athletesData)
+  //   }
+  // }
+
+  const queryChanged = () => {
+    if(surnameQuery === "" && cityQuery === "" && genderQuery === "" && disciplineQuery === ""){
       setAthletesData(allAthletesData);
     }
     else{
-      const ahtletesWithCity = allAthletesData.filter(athlete => athlete.city.toUpperCase().includes(cityQuery.toUpperCase()));
-      setAthletesData(ahtletesWithCity);
-      console.log(athletesData)
+      let ahtletesToFilter = [...allAthletesData];
+
+      if(!(surnameQuery === ""))
+        ahtletesToFilter = ahtletesToFilter.filter(athlete => athlete.surname.toUpperCase().includes(surnameQuery.toUpperCase()));
+
+      if(!(cityQuery === ""))
+        ahtletesToFilter = ahtletesToFilter.filter(athlete => athlete.city.toUpperCase().includes(cityQuery.toUpperCase()));
+
+      if(!(genderQuery === ""))
+        ahtletesToFilter = ahtletesToFilter.filter(athlete => athlete.gender.toUpperCase().includes(genderQuery.toUpperCase()));
+
+      if(!(disciplineQuery === ""))
+        ahtletesToFilter = ahtletesToFilter.filter(athlete => athlete.discipline_id.toUpperCase().includes(disciplineQuery.toUpperCase()));
+
+      setAthletesData(ahtletesToFilter);
     }
   }
 
@@ -42,24 +69,83 @@ export default function Dashboard() {
     getAthlets();
   }, [])
 
+  useEffect(() => {
+    queryChanged()
+  }, [surnameQuery])
+  
+  useEffect(() => {
+    queryChanged()
+  }, [cityQuery])
+
+  useEffect(() => {
+    queryChanged()
+  }, [genderQuery])
+
+  useEffect(() => {
+    queryChanged()
+  }, [disciplineQuery])
+
   return (
     <UserPageTemplate>
         <h1 className='mt-2 mb-4'>Dashboard</h1>
         <Form.Label>Filtruj po nazwisku</Form.Label>
-        <Form.Control placeholder="Nazwisko"/>
+        <Form.Control 
+        placeholder="Nazwisko"
+        onChange={(event) => {
+          setSurnameQuery(event.target.value)
+        }}
+        value={surnameQuery}
+        />
         <Form.Label>Filtruj po mieście</Form.Label>
         <Form.Control 
         placeholder="Miasto"
         onChange={(event) => {
-          console.log(event.target.value)
-          filterByCity(event.target.value)
+          setCityQuery(event.target.value)
         }}
+        value={cityQuery}
         />
         <Form.Label>Filtruj po płci</Form.Label>
-        <Form.Select>
-          <option>Mężczyzna</option>
-          <option>Kobieta</option>
+        <Form.Select
+        onChange={(event) => {
+          setGenderQuery(event.target.value)
+        }}
+        value={genderQuery}
+        >
+          <option value="">Wszyscy</option>
+          <option value="Mężczyzna">Mężczyzna</option>
+          <option value="Kobieta">Kobieta</option>
         </Form.Select>
+        <Form.Label>Filtruj po dyscyplinie</Form.Label>
+        <Form.Select
+        onChange={(event) => {
+          setDisciplineQuery(event.target.value)
+        }}
+        value={disciplineQuery}
+        >
+          <option value="">Wszystkie</option>
+          <option value="0">Piłka nożna</option>
+          <option value="1">Siatkówka</option>
+          <option value="2">Koszykówa</option>
+          <option value="3">Łucznictwo</option>
+          <option value="4">Karate</option>
+        </Form.Select>
+
+        <h3>Sortowanie</h3>
+        <Form.Label>Filtruj po dyscyplinie</Form.Label>
+        <Form.Select
+        onChange={(event) => {
+          setDisciplineQuery(event.target.value)
+        }}
+        value={disciplineQuery}
+        >
+          <option value="">Wszystkie</option>
+          <option value="0">Piłka nożna</option>
+          <option value="1">Siatkówka</option>
+          <option value="2">Koszykówa</option>
+          <option value="3">Łucznictwo</option>
+          <option value="4">Karate</option>
+        </Form.Select>
+
         {athletesData.map((athelte, i) => {
                 return (
                     <Card key={i} className='mb-3' border="dark">
