@@ -95,77 +95,85 @@ export default function Dashboard() {
   return (
     <UserPageTemplate>
         <h1 className='mt-2 mb-4'>Dashboard</h1>
-        <h4>Filtrowanie</h4>
-        {/* <Form.Label>Filtruj po nazwisku</Form.Label> */}
-        <Form.Control 
-        placeholder="Nazwisko"
-        onChange={(event) => {
-          setSurnameQuery(event.target.value)
-        }}
-        value={surnameQuery}
-        />
-        {/* <Form.Label>Filtruj po mieście</Form.Label> */}
-        <Form.Control 
-        placeholder="Miasto"
-        onChange={(event) => {
-          setCityQuery(event.target.value)
-        }}
-        value={cityQuery}
-        />
-        <Form.Label>Płeć</Form.Label>
-        <Form.Select
-        onChange={(event) => {
-          setGenderQuery(event.target.value)
-        }}
-        value={genderQuery}
-        >
-          <option value="">Wszyscy</option>
-          <option value="Mężczyzna">Mężczyzna</option>
-          <option value="Kobieta">Kobieta</option>
-        </Form.Select>
-        <Form.Label>Dyscyplina</Form.Label>
-        <Form.Select
-        onChange={(event) => {
-          setDisciplineQuery(event.target.value)
-        }}
-        value={disciplineQuery}
-        >
-          <option value="">Wszystkie</option>
-          <option value="0">Piłka nożna</option>
-          <option value="1">Siatkówka</option>
-          <option value="2">Koszykówa</option>
-          <option value="3">Łucznictwo</option>
-          <option value="4">Karate</option>
-        </Form.Select>
-
-        <h4>Sortowanie</h4>
-        <Form.Select
-        onChange={(event) => {
-          sortingChanged(event.target.value)
-        }}
-        >
-          <option value="0">Od najnowszych</option>
-          <option value="1">Od najpóźniejszych</option>
-          <option value="2">Alfabetycznie A-Z</option>
-          <option value="3">Alfabetycznie Z-A</option>
-          <option value="4">Od najmłodszych</option>
-          <option value="5">Od najstarszych</option>
-        </Form.Select>
-
+        <div className='d-flex mb-2' style={{gap: '20px'}}>
+          <div className='d-flex flex-column'>
+            <h4>Filtrowanie</h4>
+            {/* <Form.Label>Filtruj po nazwisku</Form.Label> */}
+            <Form.Control 
+            className='mb-2'
+            placeholder="Nazwisko"
+            onChange={(event) => {
+              setSurnameQuery(event.target.value)
+            }}
+            value={surnameQuery}
+            />
+            {/* <Form.Label>Filtruj po mieście</Form.Label> */}
+            <Form.Control 
+            className='mb-2'
+            placeholder="Miasto"
+            onChange={(event) => {
+              setCityQuery(event.target.value)
+            }}
+            value={cityQuery}
+            />
+            <Form.Label>Płeć</Form.Label>
+            <Form.Select
+            onChange={(event) => {
+              setGenderQuery(event.target.value)
+            }}
+            value={genderQuery}
+            >
+              <option value="">Wszyscy</option>
+              <option value="Mężczyzna">Mężczyzna</option>
+              <option value="Kobieta">Kobieta</option>
+            </Form.Select>
+            <Form.Label>Dyscyplina</Form.Label>
+            <Form.Select
+            onChange={(event) => {
+              setDisciplineQuery(event.target.value)
+            }}
+            value={disciplineQuery}
+            >
+              <option value="">Wszystkie</option>
+              <option value="0">Piłka nożna</option>
+              <option value="1">Siatkówka</option>
+              <option value="2">Koszykówa</option>
+              <option value="3">Łucznictwo</option>
+              <option value="4">Karate</option>
+            </Form.Select>
+          </div>
+          <div className='d-flex flex-column'>
+            <h4>Sortowanie</h4>
+            <Form.Select
+            onChange={(event) => {
+              sortingChanged(event.target.value)
+            }}
+            >
+              <option value="0">Od najnowszych</option>
+              <option value="1">Od najpóźniejszych</option>
+              <option value="2">Alfabetycznie A-Z</option>
+              <option value="3">Alfabetycznie Z-A</option>
+              <option value="4">Od najmłodszych</option>
+              <option value="5">Od najstarszych</option>
+            </Form.Select>
+          </div>
+        </div>
         {athletesData.map((athelte, i) => {
                 return (
                     <Card key={i} className='mb-3' border="dark">
                       <Card.Header >{athelte.name} {athelte.surname}</Card.Header>
-                      <Card.Body className="d-flex justify-content-start" style={{gap: '20px'}}>
+                      <Card.Body className="d-flex justify-content-start flex-wrap" style={{gap: '20px'}}>
                         <Card.Img src={athelte.profileImage} style={{ width: '70px', height: '70px' }}/>
                         <div style={{flexGrow: '1'}}>
-                        <Card.Text>{athelte.birthday_date.toDate().toLocaleDateString()}</Card.Text>
-                        <Card.Text>{athelte.city}</Card.Text>
+                          <Card.Text>{athelte.birthday_date.toDate().toLocaleDateString()}</Card.Text>
+                          <Card.Text>{athelte.city}</Card.Text>
                         </div>
-                        <div style={{flexGrow: '3'}}>
-                        <Card.Text>{athelte.s_desc}</Card.Text>
+                        <div style={{flexGrow: '3', width: '70%'}}>
+                          <Card.Text>{athelte.s_desc}</Card.Text>
                         </div>
-                        <Link to={`/dashboard/${athelte.id}`}>Szczegóły</Link>
+                        <div className="d-flex justify-content-center flex-column" style={{flexGrow: '1'}}>
+                        <Link className="btn btn-primary" to={`/dashboard/${athelte.id}`}>Szczegóły</Link>
+                        </div>
                       </Card.Body>
                     </Card>
                 )
