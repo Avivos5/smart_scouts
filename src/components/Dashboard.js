@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import {db} from '../firebase'
 import UserPageTemplate from '../templates/UserPageTemplate';
-import {Card, Form} from 'react-bootstrap'
+import {Card, Form, Accordion} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
@@ -95,69 +95,69 @@ export default function Dashboard() {
   return (
     <UserPageTemplate>
         <h1 className='mt-2 mb-4'>Dashboard</h1>
-        <div className='d-flex mb-2' style={{gap: '20px'}}>
-          <div className='d-flex flex-column'>
-            <h4>Filtrowanie</h4>
-            {/* <Form.Label>Filtruj po nazwisku</Form.Label> */}
-            <Form.Control 
-            className='mb-2'
-            placeholder="Nazwisko"
-            onChange={(event) => {
-              setSurnameQuery(event.target.value)
-            }}
-            value={surnameQuery}
-            />
-            {/* <Form.Label>Filtruj po mieście</Form.Label> */}
-            <Form.Control 
-            className='mb-2'
-            placeholder="Miasto"
-            onChange={(event) => {
-              setCityQuery(event.target.value)
-            }}
-            value={cityQuery}
-            />
-            <Form.Label>Płeć</Form.Label>
-            <Form.Select
-            onChange={(event) => {
-              setGenderQuery(event.target.value)
-            }}
-            value={genderQuery}
-            >
-              <option value="">Wszyscy</option>
-              <option value="Mężczyzna">Mężczyzna</option>
-              <option value="Kobieta">Kobieta</option>
-            </Form.Select>
-            <Form.Label>Dyscyplina</Form.Label>
-            <Form.Select
-            onChange={(event) => {
-              setDisciplineQuery(event.target.value)
-            }}
-            value={disciplineQuery}
-            >
-              <option value="">Wszystkie</option>
-              <option value="0">Piłka nożna</option>
-              <option value="1">Siatkówka</option>
-              <option value="2">Koszykówa</option>
-              <option value="3">Łucznictwo</option>
-              <option value="4">Karate</option>
-            </Form.Select>
-          </div>
-          <div className='d-flex flex-column'>
-            <h4>Sortowanie</h4>
-            <Form.Select
-            onChange={(event) => {
-              sortingChanged(event.target.value)
-            }}
-            >
-              <option value="0">Od najnowszych</option>
-              <option value="1">Od najpóźniejszych</option>
-              <option value="2">Alfabetycznie A-Z</option>
-              <option value="3">Alfabetycznie Z-A</option>
-              <option value="4">Od najmłodszych</option>
-              <option value="5">Od najstarszych</option>
-            </Form.Select>
-          </div>
-        </div>
+        <Accordion className='mb-2' alwaysOpen>
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>Filtrowanie</Accordion.Header>
+            <Accordion.Body className="d-flex flex-md-row flex-column" style={{gap: "5px"}}>
+              <Form.Control 
+              placeholder="Nazwisko"
+              onChange={(event) => {
+                setSurnameQuery(event.target.value)
+              }}
+              value={surnameQuery}
+              />
+              <Form.Control 
+              placeholder="Miasto"
+              onChange={(event) => {
+                setCityQuery(event.target.value)
+              }}
+              value={cityQuery}
+              />
+              <Form.Select
+              onChange={(event) => {
+                setGenderQuery(event.target.value)
+              }}
+              value={genderQuery}
+              >
+                <option value="">Płeć</option>
+                <option value="Mężczyzna">Mężczyzna</option>
+                <option value="Kobieta">Kobieta</option>
+              </Form.Select>
+              <Form.Select
+              onChange={(event) => {
+                setDisciplineQuery(event.target.value)
+              }}
+              value={disciplineQuery}
+              >
+                <option value="">Dyscyplina</option>
+                <option value="0">Piłka nożna</option>
+                <option value="1">Siatkówka</option>
+                <option value="2">Koszykówa</option>
+                <option value="3">Łucznictwo</option>
+                <option value="4">Karate</option>
+              </Form.Select>
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>Sortowanie</Accordion.Header>
+            <Accordion.Body>
+              <Form.Select
+              className="mx-auto"
+              style={{maxWidth: '474px'}}
+              onChange={(event) => {
+                sortingChanged(event.target.value)
+              }}
+              >
+                <option value="0">Od najnowszych</option>
+                <option value="1">Od najpóźniejszych</option>
+                <option value="2">Alfabetycznie A-Z</option>
+                <option value="3">Alfabetycznie Z-A</option>
+                <option value="4">Od najmłodszych</option>
+                <option value="5">Od najstarszych</option>
+              </Form.Select>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
         {athletesData.map((athelte, i) => {
                 return (
                     <Card key={i} className='mb-3' border="dark">
