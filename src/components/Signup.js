@@ -17,7 +17,7 @@ export default function Signup() {
     e.preventDefault()
 
     if(passwordRef.current.value !== passwordConfirmRef.current.value){
-      return setError("Passwords do not match");
+      return setError("Hasła nie są takie same.");
     }
 
     try{
@@ -26,7 +26,7 @@ export default function Signup() {
       await signup(emailRef.current.value, passwordRef.current.value)
       navigate("/complete_profile");
     }catch{
-      setError("Failed to create an account")
+      setError("Nie udało się założyć konta :/")
     }
     setLoading(false)
   }
@@ -36,15 +36,15 @@ export default function Signup() {
       <div className="w-100" style={{maxWidth: '400px'}}>
         <Card bg="dark" text="white">
           <Card.Body>
-            <h2 className="text-center mb-4">Sign Up</h2>
+            <h2 className="text-center mb-4">Rejestracja</h2>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group id="email">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>E-mail</Form.Label>
                 <Form.Control type="email" ref={emailRef} required></Form.Control>
               </Form.Group>
               <Form.Group id="password">
-                <Form.Label>Password</Form.Label>
+                <Form.Label>Hasło</Form.Label>
                 <Form.Control
                   type="password"
                   ref={passwordRef}
@@ -52,7 +52,7 @@ export default function Signup() {
                 ></Form.Control>
               </Form.Group>
               <Form.Group id="password-confirmation">
-                <Form.Label>Repeat Password</Form.Label>
+                <Form.Label>Powtórz hasło</Form.Label>
                 <Form.Control
                   type="password"
                   ref={passwordConfirmRef}
@@ -60,13 +60,13 @@ export default function Signup() {
                 ></Form.Control>
               </Form.Group>
               <Button className="w-100 mt-3" type="submit" disabled={loading}>
-                Sing Up
+                Zarejestruj
               </Button>
             </Form>
           </Card.Body>
         </Card>
         <div className="w-100 text-center mt-2">
-          Already have an account? <Link to="/login">Log In</Link>
+          Posiadasz już konto? <Link to="/login">Zaloguj się</Link>
         </div>
       </div>
     </Container>

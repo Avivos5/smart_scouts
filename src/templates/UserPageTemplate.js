@@ -25,11 +25,11 @@ export default function UserPageTemplate({ children }) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
+            <Nav.Link as={Link} to="/dashboard">Strona główna</Nav.Link>
           </Nav>
           <Nav style={{gap: '5px'}}>
-            <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-            <Button onClick={handeLogout}>Logout</Button>
+            <Nav.Link as={Link} to="/profile">Profil</Nav.Link>
+            <Button onClick={handeLogout}>Wyloguj</Button>
           </Nav>
         </Navbar.Collapse>
         </Container>

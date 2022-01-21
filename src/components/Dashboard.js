@@ -94,7 +94,7 @@ export default function Dashboard() {
 
   return (
     <UserPageTemplate>
-        <h1 className='mt-2 mb-4'>Dashboard</h1>
+        <h1 className='mt-2 mb-4'>Strona główna</h1>
         <Accordion className='mb-2' alwaysOpen>
           <Accordion.Item eventKey="0">
             <Accordion.Header>Filtrowanie</Accordion.Header>

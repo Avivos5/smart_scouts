@@ -21,7 +21,7 @@ export default function Login() {
       await login(emailRef.current.value, passwordRef.current.value)
       navigate("/profile")
     }catch{
-      setError("Failed to log in :/")
+      setError("Nie udało się zalogować :/")
     }
     setLoading(false)
   }
@@ -31,15 +31,15 @@ export default function Login() {
       <div className="w-100" style={{maxWidth: '400px'}}>
         <Card bg="dark" text="white">
           <Card.Body>
-            <h2 className="text-center mb-4">Log In</h2>
+            <h2 className="text-center mb-4">Logowanie</h2>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group id="email">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>E-mail</Form.Label>
                 <Form.Control type="email" ref={emailRef} required></Form.Control>
               </Form.Group>
               <Form.Group id="password">
-                <Form.Label>Password</Form.Label>
+                <Form.Label>Hasło</Form.Label>
                 <Form.Control
                   type="password"
                   ref={passwordRef}
@@ -47,13 +47,13 @@ export default function Login() {
                 ></Form.Control>
               </Form.Group>
               <Button className="w-100 mt-3" type="submit" disabled={loading}>
-                Log In
+                Zaloguj
               </Button>
             </Form>
           </Card.Body>
         </Card>
         <div className="w-100 text-center mt-2">
-          Don't have an account? <Link to="/signup">Sign Up</Link>
+          Nie masz konta? <Link to="/signup">Zarejestruj się</Link>
         </div>
       </div>
     </Container>

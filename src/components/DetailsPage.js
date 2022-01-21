@@ -85,7 +85,7 @@ export default function DetailsPage() {
 
   return (
     <UserPageTemplate>
-      <h1 className='mt-2 mb-4'>Details page</h1>
+      <h1 className='mt-2 mb-4'>Szczegóły profilu</h1>
       {accType ?
         <>
           <Card className='mx-auto mt-2 mb-5' style={{ maxWidth: '30rem' }}>
