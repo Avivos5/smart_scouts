@@ -27,7 +27,7 @@ export default function UserPageTemplate({ children }) {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
           </Nav>
-          <Nav>
+          <Nav style={{gap: '5px'}}>
             <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
             <Button onClick={handeLogout}>Logout</Button>
           </Nav>

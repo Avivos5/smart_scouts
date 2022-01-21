@@ -177,7 +177,7 @@ export default function Profile() {
               <Form onSubmit={addAchivement}>
               <Form.Group id="achivement">
                     <Form.Label>Nazwa osiągnięcia</Form.Label>
-                    <div className="d-flex justify-content-between align-items-center">
+                    <div className="d-flex justify-content-between align-items-sm-center align-items-stretch flex-sm-row flex-column">
                       <Form.Control 
                       type="text" 
                       onChange={(event) => {
@@ -186,7 +186,7 @@ export default function Profile() {
                       value={newAchivName}
                       required
                       ></Form.Control>
-                      <Button className="w-25" type="submit"> 
+                      <Button type="submit"> 
                         Dodaj
                       </Button>
                     </div>
@@ -222,7 +222,10 @@ export default function Profile() {
               <Card.Title className="mb-2 text-muted">Dodaj Doświadczenie</Card.Title>
               <Form onSubmit={addHistory}>
               <Form.Group id="history">
-                  <div className="d-flex justify-content-between align-items-center mb-2">
+                  <div 
+                  className="d-flex justify-content-between align-items-sm-center align-items-stretch flex-sm-row flex-column mb-2"
+                  style={{gap: "10px"}}
+                  >
                     <div>
                       <Form.Label>Data rozpoczęcia</Form.Label>
                       <Form.Control
@@ -247,7 +250,7 @@ export default function Profile() {
                     </div>
                   </div>
                   <Form.Label>Nazwa doświadczenia</Form.Label>
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="d-flex justify-content-between align-items-sm-center align-items-stretch flex-sm-row flex-column">
                     <Form.Control 
                     type="text" 
                     onChange={(event) => {
@@ -257,7 +260,7 @@ export default function Profile() {
                     required
                     >
                     </Form.Control>
-                    <Button className="w-25" type="submit"> 
+                    <Button type="submit"> 
                       Dodaj
                     </Button>
                   </div>
