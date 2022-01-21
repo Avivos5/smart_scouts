@@ -2,32 +2,31 @@ import React, { useEffect, useState } from 'react'
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import {db} from '../firebase'
 import UserPageTemplate from '../templates/UserPageTemplate';
-import {Card, Button, Form} from 'react-bootstrap'
+import {Card, Form} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
 
-  const q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("created", "desc")); //od najnowszego (czas dodania konta)
-  // const q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("created")); //od najstarszego (czas dodania konta)
-  // const q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("surname")); //po nazwisku alfabetycznie A-Z
-  // const q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("surname", "desc")); //po nazwisku alfabetycznie Z-A
-  // const q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("birthday_date")); //po dacie urodzenia od najstarszych
-  // const q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("birthday_date", "desc")); //po dacie urodzenia od najmłodszych
+  let q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("created", "desc")); //od najnowszego (czas dodania konta) (DOMYŚLNIE)
 
   const [allAthletesData, setAllAthletesData] = useState([]);
   const [athletesData, setAthletesData] = useState([]);
-  
+
   const [surnameQuery, setSurnameQuery] = useState("");
   const [cityQuery, setCityQuery] = useState("");
   const [genderQuery, setGenderQuery] = useState("");
   const [disciplineQuery, setDisciplineQuery] = useState("");
 
-  const queryChanged = () => {
-    if(surnameQuery === "" && cityQuery === "" && genderQuery === "" && disciplineQuery === ""){
-      setAthletesData(allAthletesData);
-    }
-    else{
-      let ahtletesToFilter = [...allAthletesData];
+  const queryChanged = (newSortingArray) => {
+      let ahtletesToFilter
+
+      if (typeof newSortingArray === "undefined") {
+        ahtletesToFilter = [...allAthletesData];
+      }
+      else{
+        ahtletesToFilter = [...newSortingArray]
+        setAllAthletesData(newSortingArray)
+      }
 
       if(!(surnameQuery === ""))
         ahtletesToFilter = ahtletesToFilter.filter(athlete => athlete.surname.toUpperCase().includes(surnameQuery.toUpperCase()));
@@ -42,41 +41,62 @@ export default function Dashboard() {
         ahtletesToFilter = ahtletesToFilter.filter(athlete => athlete.discipline_id.toUpperCase().includes(disciplineQuery.toUpperCase()));
 
       setAthletesData(ahtletesToFilter);
-    }
   }
 
-  const getAthlets = async() =>{
+  const sortingChanged = async (sortType) => {
+
+    switch (sortType) {
+      case "0":
+        q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("created", "desc")); //od najnowszego (czas dodania konta)
+        break;
+      case "1":
+        q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("created")); //od najstarszego (czas dodania konta)
+        break;
+      case "2":
+        q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("surname")); //po nazwisku alfabetycznie A-Z
+        break;
+      case "3":
+        q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("surname", "desc")); //po nazwisku alfabetycznie Z-A
+        break;
+      case "4":
+        q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("birthday_date", "desc")); //po dacie urodzenia od najmłodszych
+        break;
+      case "5":
+        q = query(collection(db, "BasicProfile"), where("acc_type_id", "==", "0"), orderBy("birthday_date")); //po dacie urodzenia od najstarszych
+        break;
+    
+      default:
+        break;
+    }
+
     const querySnapshot = await getDocs(q);
+    const newSortingArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    queryChanged(newSortingArray)
+
+  }
+
+  const getAthlets = async(query) =>{
+    const querySnapshot = await getDocs(query);
     setAthletesData(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     setAllAthletesData(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
 
   }
 
-  useEffect(() => {
+  useEffect(() => { getAthlets(q) }, [])
 
-    getAthlets();
-  }, [])
-
-  useEffect(() => {
-    queryChanged()
-  }, [surnameQuery])
+  useEffect(() => { queryChanged() }, [surnameQuery])
   
-  useEffect(() => {
-    queryChanged()
-  }, [cityQuery])
+  useEffect(() => { queryChanged() }, [cityQuery])
 
-  useEffect(() => {
-    queryChanged()
-  }, [genderQuery])
+  useEffect(() => { queryChanged() }, [genderQuery])
 
-  useEffect(() => {
-    queryChanged()
-  }, [disciplineQuery])
+  useEffect(() => { queryChanged() }, [disciplineQuery])
 
   return (
     <UserPageTemplate>
         <h1 className='mt-2 mb-4'>Dashboard</h1>
-        <Form.Label>Filtruj po nazwisku</Form.Label>
+        <h4>Filtrowanie</h4>
+        {/* <Form.Label>Filtruj po nazwisku</Form.Label> */}
         <Form.Control 
         placeholder="Nazwisko"
         onChange={(event) => {
@@ -84,7 +104,7 @@ export default function Dashboard() {
         }}
         value={surnameQuery}
         />
-        <Form.Label>Filtruj po mieście</Form.Label>
+        {/* <Form.Label>Filtruj po mieście</Form.Label> */}
         <Form.Control 
         placeholder="Miasto"
         onChange={(event) => {
@@ -92,7 +112,7 @@ export default function Dashboard() {
         }}
         value={cityQuery}
         />
-        <Form.Label>Filtruj po płci</Form.Label>
+        <Form.Label>Płeć</Form.Label>
         <Form.Select
         onChange={(event) => {
           setGenderQuery(event.target.value)
@@ -103,7 +123,7 @@ export default function Dashboard() {
           <option value="Mężczyzna">Mężczyzna</option>
           <option value="Kobieta">Kobieta</option>
         </Form.Select>
-        <Form.Label>Filtruj po dyscyplinie</Form.Label>
+        <Form.Label>Dyscyplina</Form.Label>
         <Form.Select
         onChange={(event) => {
           setDisciplineQuery(event.target.value)
@@ -118,20 +138,18 @@ export default function Dashboard() {
           <option value="4">Karate</option>
         </Form.Select>
 
-        <h3>Sortowanie</h3>
-        <Form.Label>Filtruj po dyscyplinie</Form.Label>
+        <h4>Sortowanie</h4>
         <Form.Select
         onChange={(event) => {
-          setDisciplineQuery(event.target.value)
+          sortingChanged(event.target.value)
         }}
-        value={disciplineQuery}
         >
-          <option value="">Wszystkie</option>
-          <option value="0">Piłka nożna</option>
-          <option value="1">Siatkówka</option>
-          <option value="2">Koszykówa</option>
-          <option value="3">Łucznictwo</option>
-          <option value="4">Karate</option>
+          <option value="0">Od najnowszych</option>
+          <option value="1">Od najpóźniejszych</option>
+          <option value="2">Alfabetycznie A-Z</option>
+          <option value="3">Alfabetycznie Z-A</option>
+          <option value="4">Od najmłodszych</option>
+          <option value="5">Od najstarszych</option>
         </Form.Select>
 
         {athletesData.map((athelte, i) => {
