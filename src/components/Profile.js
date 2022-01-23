@@ -5,6 +5,7 @@ import 'firebase/firestore';
 import {useAuth} from '../contexts/AuthContext'
 import UserPageTemplate from '../templates/UserPageTemplate';
 import {Card, ListGroup, ListGroupItem, Spinner, Carousel, Form, Button} from 'react-bootstrap'
+import { Link } from "react-router-dom";
 
 
 export default function Profile() {
@@ -112,6 +113,7 @@ export default function Profile() {
       <h1 className='mt-2 mb-4'>Profil</h1>
       {accType ?
         <>
+          <Link className="btn btn-primary mx-auto" style={{ display: 'block', width: "130px" }} to={"/complete_profile"}>Edytuj Profil</Link>
           <Card className='mx-auto mt-2 mb-5' style={{ maxWidth: '30rem' }}>
             <Card.Img variant="top" src={basicUserData.profileImage} alt='user avatar' style={{ height: '250px', objectFit: 'contain'}}/>
             <Card.Body>

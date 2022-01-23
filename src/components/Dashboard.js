@@ -160,7 +160,7 @@ export default function Dashboard() {
         </Accordion>
         {athletesData.map((athelte, i) => {
                 return (
-                    <Card key={i} className='mb-3' border="dark">
+                    <Card key={i} className='mb-3'>
                       <Card.Header >{athelte.name} {athelte.surname}</Card.Header>
                       <Card.Body className="d-flex justify-content-start flex-wrap" style={{gap: '20px'}}>
                         <Card.Img src={athelte.profileImage} style={{ width: '70px', height: '70px' }}/>
